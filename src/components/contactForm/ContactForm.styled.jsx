@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Form = styled.form`
+export const ContactFormUi = styled.form`
   width: 350px;
   height: 300px;
   margin-block: 20px;
@@ -10,7 +10,7 @@ export const Form = styled.form`
   flex-direction: column;
   border: 2px black solid;
 `;
-export const Label = styled.label`
+export const ContactFormLabel = styled.label`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -18,7 +18,7 @@ export const Label = styled.label`
   padding: 5px;
   font-size: 25px;
 `;
-export const Input = styled.input`
+export const ContactFormInput = styled.input`
   width: 250px;
   margin: 0;
   padding: 5px;
@@ -26,7 +26,7 @@ export const Input = styled.input`
   border: #8ca1adde 1px solid;
   border-radius: 5px;
 `;
-export const SubButton = styled.button`
+export const ContactAddButton = styled.button`
   margin-top: 10px;
   margin-left: 5px;
   width: 125px;

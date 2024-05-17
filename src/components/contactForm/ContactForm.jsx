@@ -1,6 +1,12 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Label, SubButton } from './ContactForm.styled.jsx';
+
+import {
+  ContactFormUi,
+  ContactFormLabel,
+  ContactFormInput,
+  ContactAddButton,
+} from './ContactForm.styled';
 
 export default function ContactForm({ onSubmit }) {
   const nameRef = useRef();
@@ -14,33 +20,32 @@ export default function ContactForm({ onSubmit }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Label>
+    <ContactFormUi onSubmit={handleSubmit}>
+      <ContactFormLabel>
         Name:
-        <Input
+        <ContactFormInput
           type="text"
           name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Maria, Jacob Hobs"
           required
           ref={nameRef}
         />
-      </Label>
-      <Label>
+      </ContactFormLabel>
+      <ContactFormLabel>
         Number:
-        <Input
+        <ContactFormInput
           type="tel"
           name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           ref={numberRef}
         />
-      </Label>
-      <SubButton type="submit">Add contact</SubButton>
-    </Form>
+      </ContactFormLabel>
+      <ContactAddButton type="submit">Add contact</ContactAddButton>
+    </ContactFormUi>
   );
 }
+
 ContactForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };

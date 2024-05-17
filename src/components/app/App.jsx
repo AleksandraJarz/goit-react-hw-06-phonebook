@@ -1,32 +1,33 @@
-import { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
-import ContactForm from './ContactForm';
-import Filter from './Filter';
-import ContactList from './ContactList';
-
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, deleteContact, setFilter } from '../../redux/reducers';
+import ContactForm from 'components/contactForm/ContactForm';
+import Filter from 'components/filter/Filter';
+import ContactList from 'components/contactList/ContactList';
 import { AppContainer, AppWrapper } from './App.styled';
 
 export default function App() {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(state => state.phonebook.contacts);
+  const filter = useSelector(state => state.phonebook.filter);
+  const dispatch = useDispatch();
 
-  const addContact = ({ name, number }) => {
+  const handleAddContact = ({ name, number }) => {
     const checkContactExist = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
     if (checkContactExist) {
       alert(`${name} is already in contacts`);
     } else {
-      setContacts(prev => [...prev, { name, number, id: nanoid() }]);
+      dispatch(addContact({ name, number }));
     }
   };
 
-  const deleteContact = contactId => {
-    setContacts(prev => prev.filter(contact => contact.id !== contactId));
+  const HandleDeleteContact = contactId => {
+    dispatch(deleteContact(contactId));
   };
 
   const handleChangeFilter = evt => {
-    setFilter(evt.target.value);
+    dispatch(setFilter(evt.target.value));
   };
 
   const getFilteredContacts = () => {
@@ -42,24 +43,26 @@ export default function App() {
   const loadContacts = () => {
     const savedContacts = JSON.parse(localStorage.getItem('contacts'));
     if (savedContacts) {
-      setContacts(savedContacts);
+      savedContacts.forEach(contact => {
+        dispatch(addContact({ name: contact.name, number: contact.number }));
+      });
     }
   };
 
-  useEffect(loadContacts, []);
+  useEffect(loadContacts, [dispatch]);
 
   useEffect(saveContacts, [contacts]);
 
   return (
     <AppContainer>
       <AppWrapper>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={addContact} />
+        <h1> Phonebook</h1>
+        <ContactForm onSubmit={handleAddContact} />
         <h2>Contacts</h2>
         <Filter value={filter} onChange={handleChangeFilter} />
         <ContactList
           contacts={getFilteredContacts()}
-          onDeleteContact={deleteContact}
+          onDeleteContact={HandleDeleteContact}
         />
       </AppWrapper>
     </AppContainer>
